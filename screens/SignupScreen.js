@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import SignupForm from '../components/signupScreen/SignupForm';
 
-const INSTAGRAM_LOGO = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhQQjU1qfX7aVH4FNAJpBHfGkzgPWs83DpeQ&usqp=CAU';
+const INSTAGRAM_LOGO = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ3G9nZKzlr6goyDoFAnALxjPzwb_7C6dwIQ&usqp=CAU';
 
 const SignupScreen = () => {
   return (

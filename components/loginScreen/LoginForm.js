@@ -1,9 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import validator from 'email-validator';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Formik } from 'formik';
 import React from 'react';
-import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as Yup from 'yup';
+import { auth } from '../../firebase';
 
 const LoginValidationSchema = Yup.object().shape({
   //! En az 2 karakter olması lazım. olmazsa yanına yazdığımız mesajı
@@ -14,10 +16,29 @@ const LoginValidationSchema = Yup.object().shape({
 const LoginForm = () => {
   const navigation = useNavigation();
 
+  const onLogin = async (email, password) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log('Firebase Login Successful', email, password);
+    } catch (error) {
+      Alert.alert('Dear Client...', error.message + '\n\n ... What do you want to do?', [
+        {
+          text: 'OK',
+          onPress: () => console.log('OK'),
+          style: 'cancel'
+        },
+        {
+          text: 'Sign Up',
+          onPress: () => navigation.push('SignupScreen')
+        }
+      ]);
+    }
+  };
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
-      onSubmit={values => console.log(values)}
+      onSubmit={values => onLogin(values.email, values.password)}
       //! Yup ile hazırladığımız validationu buraya gönderiyoruz.
       validationSchema={LoginValidationSchema}
       validateOnMount={true}
